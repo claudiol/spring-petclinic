@@ -3,6 +3,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   name: spring-petclinic-push
+  namespace: devsecops-ci
   annotations:
     # The event we are targeting as seen from the webhook payload
     # this can be an array too, i.e: [pull_request, push]
@@ -53,11 +54,6 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
-      - name: maven-test
-        taskRef:
-          name: maven
-        runAfter:
-          - fetch-repository
         params:
           - name: GOALS
             value:
